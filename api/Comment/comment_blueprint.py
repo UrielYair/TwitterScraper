@@ -16,7 +16,7 @@ comment_blueprint = Blueprint('comment_blueprint', __name__)
 # @ swag_from('candidates.yaml')
 def comments():
     all_comments = Comment.query.all()
-    return jsonify(tweets_schema.dump(all_comments))
+    return jsonify(comments_schema.dump(all_comments))
 
 
 @ comment_blueprint.route("/comment/<int:comment_id>")
