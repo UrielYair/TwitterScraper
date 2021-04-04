@@ -23,10 +23,10 @@ def tweets():
     return jsonify(tweets_schema.dump(all_tweets))
 
 
-@ tweet_blueprint.route("/tweets/<int:tweet_id>")
+@ tweet_blueprint.route("/tweets/<int:id>")
 # @ swag_from('candidate_detail.yaml')
-def tweet_detail(tweet_id):
-    tweet = Tweet.query.get_or_404(tweet_id)
+def tweet_detail(id):
+    tweet = Tweet.query.get_or_404(id)
     return tweet_schema.dump(tweet)
 
 
@@ -38,12 +38,12 @@ def store_tweet_with_replies(username, tweet_id):
         return {'error': "username or tweet id is not in the corrrect format."}
 
     url = f'{TWITTER_BASE_URL}{username}/status/{tweet_id}'
-    tweet_text = fetch_post_text(url)
-    tweet_replies = fetch_post_replies(url)
+    # tweet_text = fetch_post_text(url)
+    # tweet_replies = fetch_post_replies(url)
 
-    # tweet_text = {'post_found': True, 'tweet_text': 'כל פעם שגורם ממסדי כלשהו אומר משהו שלא מתאים לליכודניקים הם מתחילים להשתולל ולאיים בחורבן.\nפעם זה בג"צ ופעם זה הנשיא.\n\nלא מתאים לכם מדינת חוק דמוקרטית עם איזונים ובלמים תתכבדו ותקימו לכם את מונרכיית יהודה ותעזבו אותנו בשקט.'}
-    # tweet_replies = {'post_found': True, 'tweet_replies': {'ומי יממן אותם?',
-    #                                                        'יותר מונרכית ביביסטן.\nיהודה זה שלנו.', 'מדוייק\nביביסטים נמאסתם\n@Likud_Party'}}
+    tweet_text = {'post_found': True, 'tweet_text': 'כל פעם שגורם ממסדי כלשהו אומר משהו שלא מתאים לליכודניקים הם מתחילים להשתולל ולאיים בחורבן.\nפעם זה בג"צ ופעם זה הנשיא.\n\nלא מתאים לכם מדינת חוק דמוקרטית עם איזונים ובלמים תתכבדו ותקימו לכם את מונרכיית יהודה ותעזבו אותנו בשקט.'}
+    tweet_replies = {'post_found': True, 'tweet_replies': {'ומי יממן אותם?',
+                                                           'יותר מונרכית ביביסטן.\nיהודה זה שלנו.', 'מדוייק\nביביסטים נמאסתם\n@Likud_Party'}}
 
     if not tweet_text['post_found']:
         return tweet_text
@@ -69,7 +69,4 @@ def store_tweet_with_replies(username, tweet_id):
     db.session.add(new_tweet)
     db.session.commit()
 
-    # return tweet_schema.dump(new_tweet)
-
-    return {'tweet_text': new_tweet.tweet_text, 'comments': [
-        str(comment) for comment in new_tweet.comments]}
+    return tweet_schema.dump(new_tweet)
