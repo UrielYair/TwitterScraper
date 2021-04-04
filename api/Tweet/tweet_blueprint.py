@@ -41,13 +41,18 @@ def store_tweet_with_replies(username, tweet_id):
     tweet_text = fetch_post_text(url)
     tweet_replies = fetch_post_replies(url)
 
+    # tweet_text = {'post_found': True, 'tweet_text': 'כל פעם שגורם ממסדי כלשהו אומר משהו שלא מתאים לליכודניקים הם מתחילים להשתולל ולאיים בחורבן.\nפעם זה בג"צ ופעם זה הנשיא.\n\nלא מתאים לכם מדינת חוק דמוקרטית עם איזונים ובלמים תתכבדו ותקימו לכם את מונרכיית יהודה ותעזבו אותנו בשקט.'}
+    # tweet_replies = {'post_found': True, 'tweet_replies': {'ומי יממן אותם?',
+    #                                                        'יותר מונרכית ביביסטן.\nיהודה זה שלנו.', 'מדוייק\nביביסטים נמאסתם\n@Likud_Party'}}
+
     if not tweet_text['post_found']:
         return tweet_text
-    print(tweet_text)
 
     if not tweet_replies['post_found']:
         return tweet_replies
-    pprint(tweet_replies['tweet_replies'])
+
+    # print(tweet_text)
+    # pprint(tweet_replies['tweet_replies'])
 
     new_tweet = Tweet(
         tweet_id=tweet_id, tweet_text=tweet_text['tweet_text'], tweet_username=username)
@@ -55,7 +60,7 @@ def store_tweet_with_replies(username, tweet_id):
     for comment in tweet_replies['tweet_replies']:
 
         # Create new comment row in DB
-        new_comment = Comment(comment_text=comment)
+        new_comment = Comment(comment_text=comment, tweet_id=tweet_id)
         db.session.add(new_comment)
 
         # add comment to new_tweet
@@ -64,4 +69,7 @@ def store_tweet_with_replies(username, tweet_id):
     db.session.add(new_tweet)
     db.session.commit()
 
-    return tweet_schema.dump(new_tweet)
+    # return tweet_schema.dump(new_tweet)
+
+    return {'tweet_text': new_tweet.tweet_text, 'comments': [
+        str(comment) for comment in new_tweet.comments]}

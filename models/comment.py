@@ -9,8 +9,8 @@ class Comment(db.Model):
     comment_id = db.Column(db.Integer, primary_key=True)
     comment_text = db.Column(
         db.String(TWEET_REPLY_TEXT_LENGTH), nullable=False)
-
-    tweet_id = db.Column(db.Integer, db.ForeignKey("tweet.tweet_id"))
+    tweet_id = db.Column(db.Integer, db.ForeignKey(
+        "tweet.tweet_id"), nullable=False)
 
     def __repr__(self):
         return '<Comment %r>' % self.comment_text
@@ -21,15 +21,10 @@ class Comment(db.Model):
 class CommentSchema(ma.SQLAlchemySchema):
     class Meta:
         model = Comment
-        fields = ('comment_id', 'comment_text', 'tweet_id', 'links')
+        fields = ('comment_id', 'comment_text', 'tweet_id', 'comments')
         include_fk = True
 
-    # links = ma.Hyperlinks(
-    #     {
-    #         "self": ma.URLFor("comment_blueprint.comment_detail", values=dict(id="<comment_id>")),
-    #         "collection": ma.URLFor("comment_blueprint.comments"),
-    #     }
-    # )
+    comments = ma.Nested(TweetSchema, many=True)
 
 
 # Init comment schemas
