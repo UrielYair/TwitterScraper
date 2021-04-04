@@ -1,5 +1,4 @@
 from models.database import db, ma
-from models.linking_table import tweet_comments
 from constants.constants_variables import TWEET_TEXT_LENGTH, TWITTER_USERNAME_LENGTH
 ##### MODELS #####
 
