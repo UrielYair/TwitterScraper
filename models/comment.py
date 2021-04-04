@@ -12,19 +12,19 @@ class Comment(db.Model):
     tweet_id = db.Column(db.Integer, db.ForeignKey(
         "tweet.tweet_id"), nullable=False)
 
+    tweet = db.relationship('Tweet', backref='comments')
+
     def __repr__(self):
         return '<Comment %r>' % self.comment_text
 
 
 ##### SCHEMAS #####
 
-class CommentSchema(ma.SQLAlchemySchema):
+class CommentSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Comment
-        fields = ('comment_id', 'comment_text', 'tweet_id', 'comments')
         include_fk = True
-
-    comments = ma.Nested(TweetSchema, many=True)
+        # fields = ('comment_id', 'comment_text', 'tweet_id', 'comments')
 
 
 # Init comment schemas
