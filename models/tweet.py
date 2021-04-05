@@ -21,14 +21,9 @@ class TweetSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Tweet
         include_fk = True
-        # fields = ('tweet_id', 'tweet_text', 'tweet_username', 'comments')
-    # working: # comments = ma.List(ma.HyperlinkRelated("tweet_blueprint.tweet_detail"))
+        fields = ('tweet_id', 'tweet_text', 'tweet_username')
 
 
 # Init tweet schemas
 tweet_schema = TweetSchema()
 tweets_schema = TweetSchema(many=True)
-
-
-def tweet_as_dict(sqlalchemy_tweet):
-    pass
