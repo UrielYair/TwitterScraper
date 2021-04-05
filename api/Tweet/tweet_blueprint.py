@@ -30,20 +30,31 @@ def tweet_detail(id):
     return tweet_schema.dump(tweet)
 
 
+@ tweet_blueprint.route("/tweets/<int:tweet_id>/comments/")
+# @ swag_from('comment_detail.yaml')
+def get_comments_by_tweet_id_from_db(tweet_id):
+    tweet = Tweet.query.get_or_404(tweet_id)
+    return jsonify(comments_schema.dump(tweet.comments))
+
+
 @ tweet_blueprint.route("/tweets/store/<string:username>/<string:tweet_id>")
 # @ swag_from('tweet_detail.yaml')
 def store_tweet_with_replies(username, tweet_id):
+
+    # Find tweet in DB:
+    tweet = Tweet.query.filter_by(tweet_id=tweet_id).first()
+
+    # check if tweet already in DB:
+    exists = tweet is not None
+    if exists:
+        return tweet_schema.dump(tweet)
 
     if not validate_tweeter_username(username) or not validate_tweeter_tweet_id(tweet_id):
         return {'error': "username or tweet id is not in the corrrect format."}
 
     url = f'{TWITTER_BASE_URL}{username}/status/{tweet_id}'
-    # tweet_text = fetch_post_text(url)
-    # tweet_replies = fetch_post_replies(url)
-
-    tweet_text = {'post_found': True, 'tweet_text': 'כל פעם שגורם ממסדי כלשהו אומר משהו שלא מתאים לליכודניקים הם מתחילים להשתולל ולאיים בחורבן.\nפעם זה בג"צ ופעם זה הנשיא.\n\nלא מתאים לכם מדינת חוק דמוקרטית עם איזונים ובלמים תתכבדו ותקימו לכם את מונרכיית יהודה ותעזבו אותנו בשקט.'}
-    tweet_replies = {'post_found': True, 'tweet_replies': {'ומי יממן אותם?',
-                                                           'יותר מונרכית ביביסטן.\nיהודה זה שלנו.', 'מדוייק\nביביסטים נמאסתם\n@Likud_Party'}}
+    tweet_text = fetch_post_text(url)
+    tweet_replies = fetch_post_replies(url)
 
     if not tweet_text['post_found']:
         return tweet_text
