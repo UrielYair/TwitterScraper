@@ -19,15 +19,8 @@ def comments():
     return jsonify(comments_schema.dump(all_comments))
 
 
-@ comment_blueprint.route("/comment/<int:comment_id>")
+@ comment_blueprint.route("/comments/<int:comment_id>")
 # @ swag_from('comment_detail.yaml')
 def comment_detail(comment_id):
     comment = Comment.query.get_or_404(comment_id)
     return comment_schema.dump(comment)
-
-
-@ comment_blueprint.route("/comments/<int:tweet_id>")
-# @ swag_from('comment_detail.yaml')
-def get_comments_by_tweet_id_from_db(tweet_id):
-    tweet = Tweet.query.get_or_404(tweet_id)
-    return comment_schema.dump(tweet.comments)
