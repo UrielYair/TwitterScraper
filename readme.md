@@ -48,4 +48,4 @@ feel free to use your favorite way of submitting http request:
 -   postman
 -   swagger UI
 
-![alt text](https://github.com/UrielYair/HR-REST-API/blob/master/swagger_apidocs.png?raw=true)
+![alt text](https://github.com/UrielYair/TwitterScraper/blob/master/swagger_apidocs.png?raw=true)
