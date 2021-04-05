@@ -1,0 +1,12 @@
+get the comments for specific tweet
+---
+tags:
+    - tweets
+parameters:
+    - in: path
+      name: tweet_id
+      type: integer
+      required: true
+responses:
+    200:
+        description: OK.

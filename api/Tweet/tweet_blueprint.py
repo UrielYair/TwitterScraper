@@ -17,28 +17,28 @@ tweet_blueprint = Blueprint('tweet_blueprint', __name__)
 
 
 @ tweet_blueprint.route("/tweets/")
-# @ swag_from('candidates.yaml')
+@ swag_from('tweets.yaml')
 def tweets():
     all_tweets = Tweet.query.all()
     return jsonify(tweets_schema.dump(all_tweets))
 
 
 @ tweet_blueprint.route("/tweets/<int:id>")
-# @ swag_from('candidate_detail.yaml')
+@ swag_from('tweet_detail.yaml')
 def tweet_detail(id):
     tweet = Tweet.query.get_or_404(id)
     return tweet_schema.dump(tweet)
 
 
 @ tweet_blueprint.route("/tweets/<int:tweet_id>/comments/")
-# @ swag_from('comment_detail.yaml')
+@ swag_from('tweet_comments.yaml')
 def get_comments_by_tweet_id_from_db(tweet_id):
     tweet = Tweet.query.get_or_404(tweet_id)
     return jsonify(comments_schema.dump(tweet.comments))
 
 
 @ tweet_blueprint.route("/tweets/store/<string:username>/<string:tweet_id>")
-# @ swag_from('tweet_detail.yaml')
+@ swag_from('tweet_scrape.yaml')
 def store_tweet_with_replies(username, tweet_id):
 
     # Find tweet in DB:

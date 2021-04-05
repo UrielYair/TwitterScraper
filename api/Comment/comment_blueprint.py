@@ -13,14 +13,14 @@ comment_blueprint = Blueprint('comment_blueprint', __name__)
 ##### comments #####
 
 @ comment_blueprint.route("/comments/")
-# @ swag_from('candidates.yaml')
+@ swag_from('comments.yaml')
 def comments():
     all_comments = Comment.query.all()
     return jsonify(comments_schema.dump(all_comments))
 
 
 @ comment_blueprint.route("/comments/<int:comment_id>")
-# @ swag_from('comment_detail.yaml')
+@ swag_from('comment_detail.yaml')
 def comment_detail(comment_id):
     comment = Comment.query.get_or_404(comment_id)
     return comment_schema.dump(comment)

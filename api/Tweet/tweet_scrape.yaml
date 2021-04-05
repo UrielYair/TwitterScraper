@@ -1,0 +1,16 @@
+scrape tweet text and comments from Twitter. (may take several minutes).
+---
+tags:
+    - tweets
+parameters:
+    - in: path
+      name: username
+      type: string
+      required: true
+    - in: path
+      name: tweet_id
+      type: integer
+      required: true
+responses:
+    200:
+        description: OK.

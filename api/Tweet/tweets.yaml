@@ -1,0 +1,9 @@
+get list of all tweets in the database
+---
+tags:
+    - tweets
+responses:
+    '200':
+        description: successful operation
+    '400':
+        description: Invalid request

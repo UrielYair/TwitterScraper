@@ -1,0 +1,12 @@
+get details about tweet
+---
+tags:
+    - tweets
+parameters:
+    - in: path
+      name: id
+      type: integer
+      required: true
+responses:
+    200:
+        description: OK.

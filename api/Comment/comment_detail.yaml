@@ -1,0 +1,12 @@
+get details about a comment
+---
+tags:
+    - comments
+parameters:
+    - in: path
+      name: comment_id
+      type: integer
+      required: true
+responses:
+    200:
+        description: OK.
